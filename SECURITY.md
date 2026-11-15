@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-Security fixes target the latest published version of the JDownloader 2 Home Assistant App. The current release is `0.1.6` and is classified as experimental.
+Security fixes target the latest published version of the JDownloader 2 Home Assistant App.
 
 ## Report a vulnerability privately
 
