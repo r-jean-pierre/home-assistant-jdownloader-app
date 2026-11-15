@@ -1,0 +1,20 @@
+name: Lint App
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Run Home Assistant App Lint
+        uses: frenck/action-app-linter@d51677290aef26cdfc835271dd3c7343ce502809 # v2.21.2
+        with:
+          path: ./jdownloader

@@ -1,0 +1,37 @@
+name: JDownloader 2
+version: "0.1.6"
+slug: jdownloader
+description: JDownloader 2 with its full browser GUI through Home Assistant Ingress
+url: https://github.com/r-jean-pierre/home-assistant-jdownloader-app
+arch:
+  - amd64
+  - aarch64
+image: ghcr.io/r-jean-pierre/home-assistant-jdownloader-app
+startup: application
+boot: auto
+init: false
+stage: experimental
+timeout: 60
+ingress: true
+ingress_port: 5800
+ingress_stream: true
+panel_title: JDownloader 2
+panel_icon: mdi:download-circle
+map:
+  - type: addon_config
+    read_only: false
+    path: /config
+  - type: share
+    read_only: false
+    path: /output
+environment:
+  # Keep write access on the HA OS CIFS mount tested as root:root and 0755.
+  USER_ID: "0"
+  GROUP_ID: "0"
+  WEB_LISTENING_PORT: "5800"
+  VNC_LISTENING_PORT: "-1"
+  SECURE_CONNECTION: "0"
+  WEB_AUTHENTICATION: "0"
+  JDOWNLOADER_HEADLESS: "0"
+  SERVICES_GRACETIME: "30000"
+backup: cold

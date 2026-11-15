@@ -1,0 +1,138 @@
+name: Build JDownloader 2
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jdownloader-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' }}
+
+jobs:
+  lint:
+    uses: ./.github/workflows/lint.yaml
+
+  prepare:
+    name: Read App metadata
+    runs-on: ubuntu-24.04
+    outputs:
+      architectures: ${{ steps.info.outputs.architectures }}
+      image_name: ${{ steps.release.outputs.image_name }}
+      registry_prefix: ${{ steps.release.outputs.registry_prefix }}
+      version: ${{ steps.release.outputs.version }}
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Read config.yaml
+        id: info
+        uses: home-assistant/actions/helpers/info@86d4564712fa02543c808e3a693dd04f9d3f8361
+        with:
+          path: ./jdownloader
+      - name: Validate the release version and image
+        id: release
+        shell: bash
+        env:
+          APP_VERSION: ${{ steps.info.outputs.version }}
+          APP_IMAGE: ${{ steps.info.outputs.image }}
+        run: |
+          if [[ "$APP_IMAGE" != ghcr.io/r-jean-pierre/home-assistant-jdownloader-app ]]; then
+            echo "::error::Unexpected image in jdownloader/config.yaml."
+            exit 1
+          fi
+          if [[ ! "$APP_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Use a version in major.minor.patch format in jdownloader/config.yaml."
+            exit 1
+          fi
+          if [[ "$GITHUB_REF_TYPE" == tag && "$GITHUB_REF_NAME" != "v${APP_VERSION}" ]]; then
+            echo "::error::The Git tag must match the version in jdownloader/config.yaml."
+            exit 1
+          fi
+          printf 'image_name=%s\nregistry_prefix=%s\nversion=%s\n' \
+            "${APP_IMAGE##*/}" "${APP_IMAGE%/*}" "$APP_VERSION" >> "$GITHUB_OUTPUT"
+      - name: Prepare native build runners
+        id: matrix
+        uses: home-assistant/builder/actions/prepare-multi-arch-matrix@7412f0023ea9b6e58e8bb5059f1660f51376f49a # 2026.09.0
+        with:
+          architectures: ${{ steps.info.outputs.architectures }}
+          image-name: ${{ steps.release.outputs.image_name }}
+          registry-prefix: ${{ steps.release.outputs.registry_prefix }}
+
+  build:
+    name: Check ${{ matrix.arch }} build
+    needs: [lint, prepare]
+    if: github.ref_type != 'tag'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build the image
+        uses: home-assistant/builder/actions/build-image@7412f0023ea9b6e58e8bb5059f1660f51376f49a # 2026.09.0
+        with:
+          arch: ${{ matrix.arch }}
+          context: ./jdownloader
+          image: ${{ matrix.image }}
+          image-tags: ${{ needs.prepare.outputs.version }}
+          version: ${{ needs.prepare.outputs.version }}
+          push: false
+          cosign: false
+
+  publish-images:
+    name: Publish ${{ matrix.arch }} image
+    needs: [lint, prepare]
+    if: >
+      github.repository == 'r-jean-pierre/home-assistant-jdownloader-app' &&
+      github.event_name == 'push' && github.ref_type == 'tag'
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build and publish the image
+        uses: home-assistant/builder/actions/build-image@7412f0023ea9b6e58e8bb5059f1660f51376f49a # 2026.09.0
+        with:
+          arch: ${{ matrix.arch }}
+          context: ./jdownloader
+          image: ${{ matrix.image }}
+          image-tags: ${{ needs.prepare.outputs.version }}
+          version: ${{ needs.prepare.outputs.version }}
+          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
+          push: true
+
+  publish-manifest:
+    name: Publish multi-architecture image
+    needs: [prepare, publish-images]
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      packages: write
+    steps:
+      - name: Publish the GHCR manifest
+        uses: home-assistant/builder/actions/publish-multi-arch-manifest@7412f0023ea9b6e58e8bb5059f1660f51376f49a # 2026.09.0
+        with:
+          architectures: ${{ needs.prepare.outputs.architectures }}
+          image-name: ${{ needs.prepare.outputs.image_name }}
+          image-tags: ${{ needs.prepare.outputs.version }}
+          registry-prefix: ${{ needs.prepare.outputs.registry_prefix }}
+          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
