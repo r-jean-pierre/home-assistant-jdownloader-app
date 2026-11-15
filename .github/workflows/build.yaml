@@ -44,6 +44,10 @@ jobs:
           APP_VERSION: ${{ steps.info.outputs.version }}
           APP_IMAGE: ${{ steps.info.outputs.image }}
         run: |
+          APP_IMAGE=${APP_IMAGE#\"}
+          APP_IMAGE=${APP_IMAGE%\"}
+          APP_VERSION=${APP_VERSION#\"}
+          APP_VERSION=${APP_VERSION%\"}
           if [[ "$APP_IMAGE" != ghcr.io/r-jean-pierre/home-assistant-jdownloader-app ]]; then
             echo "::error::Unexpected image in jdownloader/config.yaml."
             exit 1
