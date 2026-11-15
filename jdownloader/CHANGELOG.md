@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.7
+
+- Remove the Experimental label from the Home Assistant App.
+
 ## 0.1.6
 
 - Restrict the browser GUI to the Home Assistant Supervisor Ingress gateway.

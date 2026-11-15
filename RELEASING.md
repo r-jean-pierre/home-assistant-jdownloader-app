@@ -27,7 +27,7 @@ The build workflow runs the Home Assistant app linter and builds each architectu
    docker pull --platform linux/arm64 ghcr.io/r-jean-pierre/home-assistant-jdownloader-app:0.1.6
    ```
 
-4. Make the tested source version available on the default branch. Add the repository in a test Home Assistant instance and install from the App Store. The candidate is marked `experimental`.
+4. Make the tested source version available on the default branch. Add the repository in a test Home Assistant instance and install from the App Store.
 5. Use a new version and tag for fixes. Version tags identify a single release.
 
 The workflow uses the repository's GitHub token for GHCR and GitHub's identity token for signing. Release jobs build and publish only for the named upstream repository.

@@ -1,5 +1,5 @@
 name: JDownloader 2
-version: "0.1.6"
+version: "0.1.7"
 slug: jdownloader
 description: JDownloader 2 with its full browser GUI through Home Assistant Ingress
 url: https://github.com/r-jean-pierre/home-assistant-jdownloader-app
@@ -7,7 +7,6 @@ arch:
   - amd64
   - aarch64
 init: false
-stage: experimental
 timeout: 60
 ingress: true
 ingress_port: 5800
