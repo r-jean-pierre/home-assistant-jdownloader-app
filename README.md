@@ -6,6 +6,8 @@ Run the full **JDownloader 2 desktop** in the Home Assistant sidebar through Ing
 
 [![Add repository to Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fr-jean-pierre%2Fhome-assistant-jdownloader-app)
 
+![JDownloader 2 desktop in Home Assistant through Ingress](docs/images/jdownloader-home-assistant.webp)
+
 ## Install the App
 
 1. Use the button above, or open **Settings → Apps → Install app → Repositories** in Home Assistant and add this URL.

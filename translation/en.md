@@ -2,6 +2,8 @@
 
 [Repository overview](../README.md) · [Guide en français](fr.md)
 
+![JDownloader 2 desktop in Home Assistant through Ingress](../docs/images/jdownloader-home-assistant.webp)
+
 ## Install from the Home Assistant Store
 
 1. In Home Assistant, open **Settings → Apps → Install app → Repositories**.

@@ -2,6 +2,8 @@
 
 Start the App and select **Open Web UI**. Home Assistant authenticates the browser session and forwards it through Ingress. Show the App in the sidebar for direct access.
 
+![JDownloader 2 desktop in Home Assistant through Ingress](https://raw.githubusercontent.com/r-jean-pierre/home-assistant-jdownloader-app/main/docs/images/jdownloader-home-assistant.webp)
+
 ## Downloads and configuration
 
 | Purpose | In JDownloader | In Home Assistant |

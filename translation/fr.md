@@ -2,6 +2,8 @@
 
 [Présentation du dépôt](../README.md) · [English guide](en.md)
 
+![Bureau JDownloader 2 dans Home Assistant via Ingress](../docs/images/jdownloader-home-assistant.webp)
+
 ## Installer depuis le Store Home Assistant
 
 1. Dans Home Assistant, ouvre **Paramètres → Applications → Installer une application → Dépôts**.
