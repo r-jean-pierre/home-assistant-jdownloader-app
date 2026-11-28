@@ -32,13 +32,15 @@ For local storage, leave the default destination in JDownloader. Check the desti
 
 See [App documentation](../jdownloader/DOCS.md#cifs-write-permissions) for the CIFS permissions used by this version.
 
+On `0.1.8` or later, enable **Require SMB or NFS storage** in the App configuration if the destination must be on the network. The App checks the filesystem at startup and stops if it cannot reach an SMB or NFS share.
+
 ## Configuration and upgrades
 
 The Store App keeps its settings and history in its own `/config` volume. Back up the App before a migration. If you have the local prototype `local_jdownloader` installed, the Store App starts with a separate configuration. Stop the old instance before importing settings or running the same download queue in the Store App.
 
 ## Troubleshooting
 
-- **Installer reports `401 Unauthorized`.** Check that the GitHub Packages container named `home-assistant-jdownloader-app` is public and carries the image tag matching the App version, such as `0.1.6`.
+- **Installer reports `401 Unauthorized`.** Check that the GitHub Packages container named `home-assistant-jdownloader-app` is public and carries the image tag matching the App version.
 - **The desktop does not open.** Check that the App is running, then open **Open Web UI** from Home Assistant. Consult the App log if the page still fails to load.
 - **A completed download is missing from SMB.** Check the network storage status in Home Assistant, the package destination in JDownloader and write access on the SMB server.
 - **A download prompts for a captcha.** You can link an account from JDownloader's MyJDownloader settings to use the optional [MyJDownloader service](https://my.jdownloader.org/).

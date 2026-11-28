@@ -1,0 +1,4 @@
+configuration:
+  require_network_mount:
+    name: Exiger un stockage SMB ou NFS
+    description: Démarre l’App uniquement si /share/jdownloader se trouve sur un système de fichiers SMB ou NFS accessible.
