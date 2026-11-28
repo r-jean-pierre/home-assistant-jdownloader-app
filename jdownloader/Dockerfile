@@ -1,4 +1,4 @@
-FROM ghcr.io/jlesage/jdownloader-2:v26.09.1@sha256:bd6cd2fdc72818f30207e677b33cd7f1b425048c4e7132624e541e99f992be4c
+FROM ghcr.io/jlesage/jdownloader-2:v26.11.2@sha256:deb1f5519e5434d2d22d87f5c91044986b302d2cfb86846d7e72b2ad4def4ea3
 
 ARG BUILD_ARCH=unknown
 ARG BUILD_VERSION=dev
