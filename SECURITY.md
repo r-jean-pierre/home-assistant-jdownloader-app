@@ -14,4 +14,6 @@ Include the affected App version, Home Assistant version and device architecture
 
 Report issues with the Home Assistant packaging, Ingress configuration, mounted storage, AppArmor profile or build and publication workflows here.
 
+The base image digest pins the software bundled with the container. JDownloader can update its Java software in the persistent `/config` directory while the App is running. An image scan covers the bundled image contents.
+
 For issues in the upstream application or its base container, use the channels of the [JDownloader project](https://jdownloader.org/) or the [jlesage container project](https://github.com/jlesage/docker-jdownloader-2), respectively.

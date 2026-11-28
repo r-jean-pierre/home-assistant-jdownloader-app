@@ -19,7 +19,7 @@ Run the full **JDownloader 2 desktop** in the Home Assistant sidebar through Ing
 2. Select **JDownloader 2**, then click **Install** and **Start**.
 3. Click **Open Web UI**. Turn on **Show in sidebar** to keep the shortcut.
 
-The App is published as a multi-architecture image. The `0.1.6` Store installation and desktop were verified on Home Assistant OS `amd64`. The `aarch64` build passed in CI and runtime testing on an ARM device is pending. See the [changelog](jdownloader/CHANGELOG.md).
+The App is published as a multi-architecture image. Store installation and the desktop have been verified on Home Assistant OS `amd64`. Runtime testing on a Home Assistant OS `aarch64` device is pending. See the [changelog](jdownloader/CHANGELOG.md).
 
 ## Downloads and settings
 

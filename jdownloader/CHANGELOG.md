@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.8
+
+- AppArmor limits access on the shared mount to `/output/jdownloader`. Update any download destinations outside that subtree before upgrading.
+- Add an option to require SMB or NFS at startup.
+- Check the Java process and VNC socket along with the Ingress listener.
+- Validate container startup and the Nginx configuration in CI, and generate a container component inventory with vulnerability findings.
+
 ## 0.1.7
 
 - Remove the Experimental label from the Home Assistant App.

@@ -18,3 +18,18 @@ jobs:
         uses: frenck/action-app-linter@d51677290aef26cdfc835271dd3c7343ce502809 # v2.21.2
         with:
           path: ./jdownloader
+      - name: Check shell scripts
+        run: shellcheck jdownloader/rootfs/etc/cont-init.d/*.sh scripts/smoke-test.sh
+      - name: Check Dockerfile
+        uses: hadolint/hadolint-action@06be81baf89a55ffd0e24b8f04a4185738dd3387 # v3.5.0
+        with:
+          dockerfile: jdownloader/Dockerfile
+      - name: Check the upstream image metadata
+        run: |
+          dockerfile=jdownloader/Dockerfile
+          upstream=$(awk '$1 == "FROM" { print $2; exit }' "$dockerfile")
+          if ! grep -Fxq "ARG UPSTREAM_IMAGE=${upstream%@*}" "$dockerfile" ||
+             ! grep -Fxq "ARG UPSTREAM_DIGEST=${upstream#*@}" "$dockerfile"; then
+            echo "::error::Update UPSTREAM_IMAGE and UPSTREAM_DIGEST to match FROM."
+            exit 1
+          fi

@@ -8,7 +8,6 @@ profile jdownloader flags=(attach_disconnected,mediate_deleted) {
   file,
   signal,
   unix,
-  umount,
 
   deny @{PROC}/{*,**^[0-9*],sys/kernel/shm*} wkx,
   deny @{PROC}/sysrq-trigger rwklx,
@@ -17,6 +16,16 @@ profile jdownloader flags=(attach_disconnected,mediate_deleted) {
   deny @{PROC}/kcore rwklx,
 
   deny mount,
+  deny umount,
+  deny capability net_raw,
+
+  # Allow navigation through /output and restrict file access to jdownloader.
+  # The first two rules match a differing character or a longer name.
+  # The third rule matches names shorter than jdownloader that share its prefix.
+  deny /output/ wklmx,
+  deny /output/{[^j]*,j[^d]*,jd[^o]*,jdo[^w]*,jdow[^n]*,jdown[^l]*}{,/**} rwklmx,
+  deny /output/{jdownl[^o]*,jdownlo[^a]*,jdownloa[^d]*,jdownload[^e]*,jdownloade[^r]*,jdownloader?*}{,/**} rwklmx,
+  deny /output/{j,jd,jdo,jdow,jdown,jdownl,jdownlo,jdownloa,jdownload,jdownloade}{,/**} rwklmx,
 
   deny /sys/[^f]*/** wklx,
   deny /sys/f[^s]*/** wklx,

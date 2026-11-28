@@ -32,13 +32,15 @@ Pour le stockage local, laisse la destination par défaut dans JDownloader. Vér
 
 Les [instructions sur les droits CIFS](../jdownloader/DOCS.md#cifs-write-permissions) détaillent les permissions utilisées par cette version.
 
+À partir de la `0.1.8`, active **Exiger un stockage SMB ou NFS** dans la configuration de l’App si les téléchargements doivent aller sur le réseau. L’App vérifie le système de fichiers au démarrage et s’arrête si le partage SMB ou NFS est inaccessible.
+
 ## Configuration et mises à jour
 
 L’App du Store garde ses réglages et son historique dans son propre volume `/config`. Fais une sauvegarde de l’App avant une migration. Si le prototype local `local_jdownloader` est installé, l’App du Store démarre avec une configuration distincte. Arrête l’ancienne instance avant d’importer les réglages ou de lancer la même file de téléchargements dans l’App du Store.
 
 ## Dépannage
 
-- **L’installation affiche `401 Unauthorized`.** Vérifie que le package conteneur `home-assistant-jdownloader-app` dans GitHub Packages est public et porte le tag d’image correspondant à la version de l’App, par exemple `0.1.6`.
+- **L’installation affiche `401 Unauthorized`.** Vérifie que le package conteneur `home-assistant-jdownloader-app` dans GitHub Packages est public et porte le tag d’image correspondant à la version de l’App.
 - **Le bureau ne s’ouvre pas.** Vérifie que l’App tourne, puis clique sur **Ouvrir l’interface Web** depuis Home Assistant. Consulte le journal de l’App si la page ne charge toujours pas.
 - **Un téléchargement terminé est absent du serveur SMB.** Vérifie l’état du stockage réseau dans Home Assistant, la destination du paquet dans JDownloader et les droits d’écriture côté serveur.
 - **Un téléchargement demande un captcha.** Tu peux lier un compte dans les réglages MyJDownloader de JDownloader pour utiliser le [service MyJDownloader](https://my.jdownloader.org/).
