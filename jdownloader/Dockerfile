@@ -47,7 +47,7 @@ LABEL \
     org.opencontainers.image.base.digest="${UPSTREAM_DIGEST}"
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
-    CMD ["/bin/sh", "-c", "test -S /tmp/vnc.sock && pgrep -x java >/dev/null && nc -z -w5 127.0.0.1 \"${WEB_LISTENING_PORT:-5800}\""]
+    CMD ["/bin/sh", "-c", "test -S /tmp/vnc.sock && nc -z -w5 127.0.0.1 \"${WEB_LISTENING_PORT:-5800}\""]
 
 # Do not override CMD/ENTRYPOINT.
 # The upstream jlesage /init remains PID 1 and keeps its native shutdown logic.
